@@ -1,0 +1,126 @@
+<?php
+$conn = mysqli_connect("localhost","root","","dblabproject");
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HomePageOfCareStaff</title>
+  <style>
+    body{
+      background-color: rgb(122, 207, 165);
+    }
+    .dropbtn {
+  background-color: #0c744e;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+.first{
+  background-color: #0de294;
+  justify-content: center;
+margin: 40px 50px;
+border: 3px solid blue;
+
+padding: 30px;
+}
+.second{
+  display: flex;
+}
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #ddd;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {background-color: #3e8e41;}
+header {
+
+background-repeat: no-repeat;
+background-attachment: fixed;
+background-size:cover;
+text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="dropdown">
+    <button class="dropbtn">New Animal</button>
+    <div class="dropdown-content">
+      <a href="./CareStaffAddViewAnimals.html" target="_blank">Add/View Animals</a>
+      <a href="./CareStaffAddViewLot.html" target="_blank">Add/View Lot</a>
+    </div>
+  </div>
+  <div class="dropdown">
+    <button class="dropbtn">Death Mortality Chart</button>
+    <div class="dropdown-content">
+      <a href="./CareStaffAddAnimalViewChart.html" target="_blank">Add Animal/View Chart</a>
+    </div>
+  </div>
+  <header>
+    <br><br>
+    <h1 style=" color:rgb(16, 18, 19) ;  word-spacing: 10px; text-shadow: 2px 2px 3px #4ac6ec, 2px 2px 5px #0000FF; font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;text-align: center;"><bold>"Care Staff Home Page" </bold> </h1>
+  </header>
+  <br>
+</div>
+  <h2>The details of your today's work are as follows:-</h2>
+  <?php
+      $sql = "SELECT SpareData from sparetable";
+      $result = mysqli_query($conn, $sql);
+      $row = mysqli_fetch_array($result);
+      $id = $row['SpareData'];
+      $sql = "SELECT * from dailywork where `Labor ID` = '$id'";
+      $result = mysqli_query($conn, $sql);
+      echo "<table border='1'>
+      <tr>
+      <th>Task Description</th>
+      <th>Due date-time</th>
+      <th>Status</th>
+      </tr>";
+      while($row = mysqli_fetch_array($result)){
+        echo "<tr>";
+        echo "<td>" . $row['Task Description'] . "</td>";
+        echo "<td>" . $row['Due date-time'] . "</td>";
+        echo "<td>" . $row['Status'] . "</td>";
+        echo "</tr>";
+      }
+      echo "</table>";
+      if(isset($_POST['submibutton'])){
+        $change = "UPDATE dailywork set Status = 'Done' where `Labor ID` = '$id'";
+        mysqli_query($conn, $change);
+      }
+      mysqli_close($conn);
+  ?>
+  <form action="HomePageOfCareStaff.html" method="POST">
+    <br><br><button name="submibutton">click here if the task is done</button>
+  </form>
+</body>
+</html>

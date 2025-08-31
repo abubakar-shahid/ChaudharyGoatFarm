@@ -1,0 +1,133 @@
+<?php
+$conn = mysqli_connect("localhost","root","","dblabproject");
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AddAnimal_ViewChart</title>
+  <style>
+    body{
+      background-color: rgb(122, 207, 165);
+    }
+    .dropbtn {
+  background-color: #0c744e;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+.first{
+  background-color: #0de294;
+  justify-content: center;
+margin: 40px 50px;
+border: 3px solid blue;
+
+padding: 30px;
+}
+.second{
+  display: flex;
+}
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #ddd;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {background-color: #3e8e41;}
+header {
+
+background-repeat: no-repeat;
+background-attachment: fixed;
+background-size:cover;
+text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="dropdown">
+    <button class="dropbtn">Farm Expense Management </button>
+    <div class="dropdown-content">
+      <a href="./AddExpense.html" target="_blank">Add Expense</a>
+      <a href="./ViewExpense.html" target="_blank">View Expense</a>
+    </div>
+  </div>
+  <div class="dropdown">
+    <button class="dropbtn">Labor Management</button>
+    <div class="dropdown-content">
+      <a href="./AddLabour.html" target="_blank">Add Labor</a>
+      <a href="./DeleteLabor.html" target="_blank">Delete Labor</a>
+      <a href="./ViewAllLabors.html" target="_blank">View all Labors</a>
+      <a href="./ViewSalaryStatus.html" target="_blank">View Salary Status</a>
+      <a href="./AssignWork.html" target="_blank">Assign Work</a>
+      <a href="./CheckWorkList.html" target="_blank">Check Work List</a>
+    </div>
+  </div>
+  <div class="dropdown">
+    <button class="dropbtn">Vaccination Status</button>
+    <div class="dropdown-content">
+      <a href="./AddVaccinationStatus.html" target="_blank">Add Vaccination Status</a>
+      <a href="./ViewVaccinationStatus.html" target="_blank">View Vaccination Status</a>
+    </div>
+  </div>
+  <div class="dropdown">
+    <button class="dropbtn">New Animal</button>
+    <div class="dropdown-content">
+      <a href="./AddViewAnimals.html" target="_blank">Add/View Animals</a>
+      <a href="./Add_ViewLot.html" target="_blank">Add/View Lot</a>
+    </div>
+  </div>
+  <div class="dropdown">
+    <button class="dropbtn">Death Mortality Chart</button>
+    <div class="dropdown-content">
+      <a href="./AddAnimal_ViewChart.html" target="_blank">Add Animal/View Chart</a>
+    </div>
+  </div>
+    <h2>Add a Dead Animal</h2>
+    <form action="AddAnimal_ViewChart.html" method="post">
+        <div class="container">
+          <input type="text" id="animalID" placeholder="Enter Animal ID" name="animalID" required>
+          <button name="submibutton">Add</button>
+        </div>
+    </form>
+    <?php
+    if(isset($_POST['submibutton'])){
+      $id = $_POST['animalID'];
+
+      $sql = "INSERT INTO mortalanimals values ('$id')";
+      mysqli_query($conn, $sql);
+      mysqli_close($conn);
+    }
+    ?>
+    <br>
+    <h2>View Death Mortality Chart</h2>
+    <a href="./ViewCompleteChart.html" target="_blank" style="font-size: larger;">View Chart</a><br><br>
+</body>
+</html>

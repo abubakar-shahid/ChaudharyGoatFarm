@@ -1,0 +1,122 @@
+<?php
+$conn = mysqli_connect("localhost","root","","dblabproject");
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CareStaffAddViewAnimals</title>
+  <style>
+    body{
+      background-color: rgb(122, 207, 165);
+    }
+    .dropbtn {
+  background-color: #0c744e;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+.first{
+  background-color: #0de294;
+  justify-content: center;
+margin: 40px 50px;
+border: 3px solid blue;
+
+padding: 30px;
+}
+.second{
+  display: flex;
+}
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #ddd;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {background-color: #3e8e41;}
+header {
+
+background-repeat: no-repeat;
+background-attachment: fixed;
+background-size:cover;
+text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="dropdown">
+    <button class="dropbtn">New Animal</button>
+    <div class="dropdown-content">
+      <a href="./CareStaffAddViewAnimals.html" target="_blank">Add/View Animals</a>
+      <a href="./CareStaffAddViewLot.html" target="_blank">Add/View Lot</a>
+    </div>
+  </div>
+  <div class="dropdown">
+    <button class="dropbtn">Death Mortality Chart</button>
+    <div class="dropdown-content">
+      <a href="./CareStaffAddAnimalViewChart.html" target="_blank">Add Animal/View Chart</a>
+    </div>
+  </div>
+    <h2>Add the Details of the Animal below:-</h2>
+    <form action="CareStaffAddViewAnimals.html" method="post" class="first">
+        <div class="container">
+          <label class="second" for="kind">Enter Kind:</label>
+          <input type="text" id="kind" name="kind"><br></br>
+          <label class="second" for="lotNumber">Enter Lot Number:</label>
+          <input type="text" id="lotNumber" name="lotNumber"><br></br>
+          <button name="submibutton">Add</button>
+        </div>
+    </form>
+    <?php
+    if(isset($_POST['submibutton'])){
+      $kind = $_POST['kind'];
+      $lotNumber = $_POST['lotNumber'];
+
+      $sql1 = "INSERT INTO animals(Kind, `Lot Number`) values('$kind','$lotNumber')";
+      mysqli_query($conn, $sql1);
+
+      $Enterotoxemia = "Missing";
+      $FootandMouth = "Missing";
+      $Skin = "Missing";
+      $Liver = "Missing";
+      $Neutered = "Missing";
+
+      $sql2 = "INSERT INTO vaccinationstatus(Enterotoxemia,`Foot-and-Mouth`,Skin,Liver,Neutered)
+      values('$Enterotoxemia','$FootandMouth','$Skin','$Liver','$Neutered')";
+      mysqli_query($conn, $sql2);
+      mysqli_close($conn);
+    }
+    ?>
+    <br>
+    <h2>View All Animals</h2>
+    <a href="./CareStaffViewAllAnimals.html" target="_blank" style="font-size:larger;">View Animals</a><br><br>
+</body>
+</html>

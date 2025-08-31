@@ -1,0 +1,160 @@
+<?php
+$conn = mysqli_connect("localhost","root","","dblabproject");
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AddLabour</title>
+  <style>
+    body{
+      background-color: rgb(122, 207, 165);
+    }
+    .dropbtn {
+  background-color: #0c744e;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+.first{
+  background-color: #0de294;
+  justify-content: center;
+margin: 40px 50px;
+border: 3px solid blue;
+
+padding: 30px;
+}
+.second{
+  display: flex;
+}
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #ddd;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {background-color: #3e8e41;}
+header {
+
+background-repeat: no-repeat;
+background-attachment: fixed;
+background-size:cover;
+text-align: center;
+    }
+  </style>
+</head>
+<body>
+<div class="dropdown">
+  <button class="dropbtn">Farm Expense Management </button>
+  <div class="dropdown-content">
+    <a href="./AddExpense.html" target="_blank">Add Expense</a>
+    <a href="./ViewExpense.html" target="_blank">View Expense</a>
+  </div>
+</div>
+<div class="dropdown">
+  <button class="dropbtn">Labor Management</button>
+  <div class="dropdown-content">
+    <a href="./AddLabour.html" target="_blank">Add Labor</a>
+    <a href="./DeleteLabor.html" target="_blank">Delete Labor</a>
+    <a href="./ViewAllLabors.html" target="_blank">View all Labors</a>
+    <a href="./ViewSalaryStatus.html" target="_blank">View Salary Status</a>
+    <a href="./AssignWork.html" target="_blank">Assign Work</a>
+    <a href="./CheckWorkList.html" target="_blank">Check Work List</a>
+  </div>
+</div>
+<div class="dropdown">
+  <button class="dropbtn">Vaccination Status</button>
+  <div class="dropdown-content">
+    <a href="./AddVaccinationStatus.html" target="_blank">Add Vaccination Status</a>
+    <a href="./ViewVaccinationStatus.html" target="_blank">View Vaccination Status</a>
+  </div>
+</div>
+<div class="dropdown">
+  <button class="dropbtn">New Animal</button>
+  <div class="dropdown-content">
+    <a href="./AddViewAnimals.html" target="_blank">Add/View Animals</a>
+    <a href="./Add_ViewLot.html" target="_blank">Add/View Lot</a>
+  </div>
+</div>
+<div class="dropdown">
+  <button class="dropbtn">Death Mortality Chart</button>
+  <div class="dropdown-content">
+    <a href="./AddAnimal_ViewChart.html" target="_blank">Add Animal/View Chart</a>
+  </div>
+</div>
+  <h2>Add details of the labor below:-</h2>
+    <form action="AddLabour.html" class="first" method="POST">
+      <label class="second" for="fname">Full Name:</label>
+      <input type="text" id="fname" name="fname"><br></br>
+      <label class="second"for="cnic">CNIC (without dashes) :</label>
+      <input type="text" id="cnic" name="cnic"placeholder="XXXXXXXXXXXXX" pattern="[0-9]{13}"
+      title="no dahses allowed/max 11 characters allowed"><br></br>
+      <label class="second"for="phone">Phone Number:</label>
+      <input type="tel" id="phone" name="phone" placeholder="03XX-XXXXXXX" pattern="[0-9]{4}-[0-9]{7}" required><br><br>
+      <label class="second "for="Address">Address:</label>
+       <textarea id="Address" name="Address" rows="2" cols="50"></textarea><br><br>
+      <label class="second" for="salary">Enter Salary:</label>
+      <input type="text" id="salary" name="salary"><br></br>
+      <label class="second" for="category">Select Category:</label>
+      <select name="category" id="category">
+        <option value="careStaff">Animal Care Staff</option>
+        <option value="securityStaff">Security Staff</option>
+        <option value="doctor">Doctor</option>
+      </select><br><br>
+      <label class="second"for="username">Assign Username:</label>
+      <input type="text" id="username" name="username"><br></br>
+      <label class="second"for="password">Assign Password:</label>
+      <input type="text" id="password" name="password"><br></br>
+      <button name="submibutton">Add</button>
+    </form>
+    <?php
+    if(isset($_POST['submibutton'])){
+      $Name = $_POST['fname'];
+      $CNIC = $_POST['cnic'];
+      $Phone = $_POST['phone'];
+      $Address = $_POST['Address'];
+      $Category = $_POST['category'];
+      $Salary = $_POST['salary'];
+      $Username = $_POST['username'];
+      $Password = $_POST['password'];
+      $sql = "INSERT INTO labor (Name, CNIC, `Phone Number`, Address, Category, Salary, Username, Password)values('$Name','$CNIC','$Phone','$Address','$Category','$Salary','$Username','$Password')";
+      mysqli_query($conn, $sql);
+      $sql = "SELECT ID from labor where CNIC = $CNIC";
+      $result = mysqli_query($conn, $sql);
+      $row = mysqli_fetch_array($result);
+      $id = $row['ID'];
+      $sql = "INSERT into salarystatus values('$id','UnPaid')";
+      $result = mysqli_query($conn, $sql);
+      mysqli_close($conn);
+    }
+    ?>
+</body>
+</html>
